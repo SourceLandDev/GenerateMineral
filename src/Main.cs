@@ -11,7 +11,7 @@ public class Main : IPluginInitializer
     public Version Version => new();
     internal static readonly Dictionary<string, int> data = new()
     {
-        ["minecraft:stone"] = 100,
+        ["minecraft:stone"] = 64,
         ["minecraft:coal_ore"] = 15,
         ["minecraft:copper_ore"] = 13,
         ["minecraft:iron_ore"] = 11,
@@ -34,7 +34,7 @@ internal class OnSolidifyHook : THookBase<OnSolidifyHookDelegate>
         {
             Original(@this, a2, a3, a4);
             BlockSource blockSource = a2.Dereference();
-            if (blockSource.GetBlockInstance(a3).Block.TypeName is not "minecraft:cobblestone")
+            if (blockSource.GetBlock(a3).Name != "minecraft:cobblestone")
             {
                 return;
             }
@@ -50,7 +50,7 @@ internal class OnSolidifyHook : THookBase<OnSolidifyHookDelegate>
                 {
                     return;
                 }
-                _ = Level.SetBlock(a3, blockSource.DimensionId, block, 0);
+                Level.SetBlock(a3, blockSource.DimensionId, block, default);
                 return;
             }
         };
